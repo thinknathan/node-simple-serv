@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+'use strict';
 const http = require('http');
 const path = require('path');
 const mime = import('mime');
