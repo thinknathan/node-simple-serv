@@ -1,0 +1,30 @@
+{
+	"name": "node-simple-serve",
+	"version": "1.0.0",
+	"description": "Simple local server",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/thinknathan/simple-serve.git"
+	},
+	"author": "Nathan Bolton (https://thinknathan.ca/)",
+	"license": "CC0-1.0",
+	"type": "commonjs",
+	"main": "serve.cjs",
+	"bin": {
+		"serve": "./serve.cjs"
+	},
+	"files": [
+		"serve.cjs"
+	],
+	"scripts": {
+		"prettier": "prettier \"./**/*.{ts,d.ts,cjs,md,json}\" --write"
+	},
+	"devDependencies": {
+		"@types/yargs": "^17.0.32",
+		"prettier": "^3.1.1"
+	},
+	"dependencies": {
+		"mime": "^4.0.1",
+		"yargs": "^17.7.2"
+	}
+}
