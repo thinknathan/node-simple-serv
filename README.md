@@ -4,22 +4,20 @@ Run the server with default settings (port 8080, index file extension set to 'ht
 
 `serve`
 
-## Specify Port:
+## Port:
 
 You can specify a custom port using the -p or --port option:
 
 `serve -p 3000`
 
-or
-
-`serve --port 3000`
-
-## Specify Index File Extension:
+## Index File Extension:
 
 You can specify a custom extension for the index file using the -i or --index-extension option:
 
 `serve -i htm`
 
-or
+## Shared Array Buffer Support:
 
-`serve --index-extension htm`
+Activate `Cross-Origin-Embedder-Policy: require-corp` and `Cross-Origin-Opener-Policy: same-origin`
+
+`serve -s true`

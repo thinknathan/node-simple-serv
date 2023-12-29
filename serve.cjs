@@ -19,10 +19,17 @@ function main() {
 			alias: 'i',
 			description: 'Extension for the index file',
 			default: 'html',
+		})
+		.option('shared-array-buffer', {
+			alias: 's',
+			description: 'Enable security headers for SharedArrayBuffer',
+			default: false,
+			type: 'boolean',
 		}).argv;
 
 	const port = argv.port;
 	const indexExtension = argv['index-extension'];
+	const enableSharedArrayBuffer = argv['shared-array-buffer'];
 
 	const server = http.createServer((req, res) => {
 		const filePath = path.join(root, req.url);
@@ -55,6 +62,16 @@ function main() {
         <html>
           <head>
             <title>Directory Listing</title>
+            ${
+							enableSharedArrayBuffer
+								? '<meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">'
+								: ''
+						}
+            ${
+							enableSharedArrayBuffer
+								? '<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">'
+								: ''
+						}
           </head>
           <body>
             <h1>Directory Listing</h1>
@@ -68,14 +85,24 @@ function main() {
 		} else {
 			if (path.extname(filePath) === '.wasm') {
 				const wasmMimeType = mime.contentType('wasm');
-				res.writeHead(200, { 'Content-Type': wasmMimeType });
-				const fileStream = fs.createReadStream(filePath);
-				fileStream.pipe(res);
+				res.writeHead(200, {
+					'Content-Type': wasmMimeType,
+					...(enableSharedArrayBuffer && {
+						'Cross-Origin-Embedder-Policy': 'require-corp',
+						'Cross-Origin-Opener-Policy': 'same-origin',
+					}),
+				});
 			} else {
 				// Serve other files
-				const fileStream = fs.createReadStream(filePath);
-				fileStream.pipe(res);
+				res.writeHead(200, {
+					...(enableSharedArrayBuffer && {
+						'Cross-Origin-Embedder-Policy': 'require-corp',
+						'Cross-Origin-Opener-Policy': 'same-origin',
+					}),
+				});
 			}
+			const fileStream = fs.createReadStream(filePath);
+			fileStream.pipe(res);
 		}
 	});
 
