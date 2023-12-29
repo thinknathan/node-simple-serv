@@ -20,11 +20,12 @@
 		"prettier": "prettier \"./**/*.{ts,d.ts,cjs,md,json}\" --write"
 	},
 	"devDependencies": {
+		"@types/mime-types": "^2.1.4",
 		"@types/yargs": "^17.0.32",
 		"prettier": "^3.1.1"
 	},
 	"dependencies": {
-		"mime": "^4.0.1",
+		"mime-types": "^2.1.35",
 		"yargs": "^17.7.2"
 	}
 }
