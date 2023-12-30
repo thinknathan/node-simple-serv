@@ -83,24 +83,16 @@ function main() {
 				res.end(html);
 			}
 		} else {
-			if (path.extname(filePath) === '.wasm') {
-				const wasmMimeType = mime.contentType('wasm');
-				res.writeHead(200, {
-					'Content-Type': wasmMimeType,
-					...(enableSharedArrayBuffer && {
-						'Cross-Origin-Embedder-Policy': 'require-corp',
-						'Cross-Origin-Opener-Policy': 'same-origin',
-					}),
-				});
-			} else {
-				// Serve other files
-				res.writeHead(200, {
-					...(enableSharedArrayBuffer && {
-						'Cross-Origin-Embedder-Policy': 'require-corp',
-						'Cross-Origin-Opener-Policy': 'same-origin',
-					}),
-				});
-			}
+			const fileExtension = path.extname(filePath);
+			const mimeType =
+				mime.contentType(fileExtension) || 'application/octet-stream';
+			res.writeHead(200, {
+				'Content-Type': mimeType,
+				...(enableSharedArrayBuffer && {
+					'Cross-Origin-Embedder-Policy': 'require-corp',
+					'Cross-Origin-Opener-Policy': 'same-origin',
+				}),
+			});
 			const fileStream = fs.createReadStream(filePath);
 			fileStream.pipe(res);
 		}
