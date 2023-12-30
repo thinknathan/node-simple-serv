@@ -1,23 +1,33 @@
 # Simple Server
 
-Run the server with default settings (port 8080, index file extension set to 'html'):
+A simple localhost http server for testing, built on Node.
+
+## Installation
+
+1. Install [Nodejs](https://nodejs.org/en) or equivalent
+
+2. Clone this project
+   `git clone https://github.com/thinknathan/node-simple-serv`
+
+3. Install dependencies
+   `npm i`
+   or
+   `yarn`
+
+4. Install for command-line usage
+   `npm link`
+
+## Usage
 
 `serve`
 
-## Port:
+```
+  -p, --port                 Port number for the server          [default: 8080]
+  -i, --index-extension      Extension for the index file      [default: "html"]
+  -s, --shared-array-buffer  Enable security headers for SharedArrayBuffer
+                                                      [boolean] [default: false]
+```
 
-You can specify a custom port using the -p or --port option:
+## Background
 
-`serve -p 3000`
-
-## Index File Extension:
-
-You can specify a custom extension for the index file using the -i or --index-extension option:
-
-`serve -i htm`
-
-## Shared Array Buffer Support:
-
-Activate `Cross-Origin-Embedder-Policy: require-corp` and `Cross-Origin-Opener-Policy: same-origin`
-
-`serve -s true`
+Created with Chat-GPT 3.5.

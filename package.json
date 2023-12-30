@@ -1,7 +1,7 @@
 {
 	"name": "node-simple-serve",
 	"version": "1.0.0",
-	"description": "Simple local server",
+	"description": "A simple localhost http server for testing",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/thinknathan/simple-serve.git"
