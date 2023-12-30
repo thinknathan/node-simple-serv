@@ -22,10 +22,12 @@ A simple localhost http server for testing, built on Node.
 `serve`
 
 ```
-  -p, --port                 Port number for the server          [default: 8080]
-  -i, --index-extension      Extension for the index file      [default: "html"]
-  -s, --shared-array-buffer  Enable security headers for SharedArrayBuffer
-                                                      [boolean] [default: false]
+-p, --port                     Port number for the server      [default: 8080]
+-i, --index-extension          Extension for the index file  [default: "html"]
+-s, --shared-array-buffer      Enable security headers for SharedArrayBuffer
+																										[boolean] [default: false]
+-c, --content-security-policy  Content Security Policy header value
+					[default: "default-src * data: blob: 'unsafe-inline' 'unsafe-eval'"]
 ```
 
 ## Background

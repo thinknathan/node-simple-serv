@@ -6,36 +6,39 @@ const mime = require('mime-types');
 const fs = require('fs');
 const yargs = require('yargs');
 
+const argv = yargs
+	.option('port', {
+		alias: 'p',
+		description: 'Port number for the server',
+		default: 8080,
+	})
+	.option('index-extension', {
+		alias: 'i',
+		description: 'Extension for the index file',
+		default: 'html',
+	})
+	.option('shared-array-buffer', {
+		alias: 's',
+		description: 'Enable security headers for SharedArrayBuffer',
+		default: false,
+		type: 'boolean',
+	})
+	.option('content-security-policy', {
+		alias: 'c',
+		description: 'Content Security Policy header value',
+		default: "default-src * data: blob: 'unsafe-inline' 'unsafe-eval'",
+	}).argv;
+
 function main() {
 	const root = process.cwd();
-
-	const argv = yargs
-		.option('port', {
-			alias: 'p',
-			description: 'Port number for the server',
-			default: 8080,
-		})
-		.option('index-extension', {
-			alias: 'i',
-			description: 'Extension for the index file',
-			default: 'html',
-		})
-		.option('shared-array-buffer', {
-			alias: 's',
-			description: 'Enable security headers for SharedArrayBuffer',
-			default: false,
-			type: 'boolean',
-		}).argv;
-
 	const port = argv.port;
 	const indexExtension = argv['index-extension'];
-	const enableSharedArrayBuffer = argv['shared-array-buffer'];
 
 	const server = http.createServer((req, res) => {
 		const filePath = path.join(root, req.url);
 
 		if (!fs.existsSync(filePath)) {
-			res.writeHead(404, { 'Content-Type': 'text/plain' });
+			writeHeader(res, 404, 'text/plain');
 			res.end('Not Found');
 			return;
 		}
@@ -49,7 +52,7 @@ function main() {
 			if (fs.existsSync(indexFilePath)) {
 				// Serve the specified index file if it exists in the directory
 				const fileStream = fs.createReadStream(indexFilePath);
-				res.writeHead(200, { 'Content-Type': 'text/html' });
+				writeHeader(res, 200, 'text/html');
 				fileStream.pipe(res);
 			} else {
 				// Serve directory listing as HTML
@@ -62,16 +65,6 @@ function main() {
         <html>
           <head>
             <title>Directory Listing</title>
-            ${
-							enableSharedArrayBuffer
-								? '<meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">'
-								: ''
-						}
-            ${
-							enableSharedArrayBuffer
-								? '<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">'
-								: ''
-						}
           </head>
           <body>
             <h1>Directory Listing</h1>
@@ -79,20 +72,14 @@ function main() {
           </body>
         </html>
       `;
-				res.writeHead(200, { 'Content-Type': 'text/html' });
+				writeHeader(res, 200, 'text/html');
 				res.end(html);
 			}
 		} else {
 			const fileExtension = path.extname(filePath);
 			const mimeType =
 				mime.contentType(fileExtension) || 'application/octet-stream';
-			res.writeHead(200, {
-				'Content-Type': mimeType,
-				...(enableSharedArrayBuffer && {
-					'Cross-Origin-Embedder-Policy': 'require-corp',
-					'Cross-Origin-Opener-Policy': 'same-origin',
-				}),
-			});
+			writeHeader(res, 200, mimeType);
 			const fileStream = fs.createReadStream(filePath);
 			fileStream.pipe(res);
 		}
@@ -100,6 +87,19 @@ function main() {
 
 	server.listen(port, () => {
 		console.log(`Server running at http://localhost:${port}/`);
+	});
+}
+
+function writeHeader(res, code, mimeType) {
+	const enableSharedArrayBuffer = argv['shared-array-buffer'];
+	const contentSecurityPolicy = argv['content-security-policy'];
+	res.writeHead(code, {
+		'Content-Type': mimeType,
+		...(enableSharedArrayBuffer && {
+			'Cross-Origin-Embedder-Policy': 'require-corp',
+			'Cross-Origin-Opener-Policy': 'same-origin',
+		}),
+		'Content-Security-Policy': contentSecurityPolicy,
 	});
 }
 
