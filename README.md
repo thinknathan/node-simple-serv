@@ -1,3 +1,5 @@
+<img src="_docs/simple-server-banner.png" alt="Simple Server">
+
 # Simple Server
 
 A simple localhost http server for testing, built on Node.
