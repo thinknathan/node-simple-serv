@@ -2,6 +2,8 @@
 
 # Simple Server
 
+[![CI](https://github.com/thinknathan/node-simple-serv/actions/workflows/ci.yml/badge.svg)](https://github.com/thinknathan/node-simple-serv/actions/workflows/ci.yml)
+
 A simple localhost http server for testing, built on Node.
 
 ## Installation
