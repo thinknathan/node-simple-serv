@@ -2,7 +2,7 @@
 
 # Simple Server
 
-[![CI](https://github.com/thinknathan/node-simple-serv/actions/workflows/ci.yml/badge.svg)](https://github.com/thinknathan/node-simple-serv/actions/workflows/ci.yml)
+[![CI](https://github.com/thinknathan/node-simple-serv/actions/workflows/ci.yml/badge.svg)](https://github.com/thinknathan/node-simple-serv/actions/workflows/ci.yml) ![GitHub License](https://img.shields.io/github/license/thinknathan/node-simple-serv)
 
 A simple localhost http server for testing, built on Node.
 
