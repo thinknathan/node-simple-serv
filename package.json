@@ -9,7 +9,7 @@
 	"author": "Nathan Bolton (https://thinknathan.ca/)",
 	"license": "CC0-1.0",
 	"engines": {
-		"node": "^18 || >=20"
+		"node": "^18.18.0 || ^20.9.0 || >=21.1.0"
 	},
 	"type": "commonjs",
 	"main": "serve.cjs",
@@ -28,7 +28,7 @@
 		"@types/mime-types": "^2.1.4",
 		"@types/yargs": "^17.0.32",
 		"eslint": "^8.56.0",
-		"eslint-config-prettier": "^9.1.0",
+		"globals": "*",
 		"prettier": "^3.1.1"
 	},
 	"dependencies": {
