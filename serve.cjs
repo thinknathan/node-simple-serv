@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// @ts-check
 'use strict';
 const http = require('http');
 const path = require('path');
@@ -35,6 +36,8 @@ function main() {
 	const indexExtension = argv['index-extension'];
 
 	const server = http.createServer((req, res) => {
+		if (!req.url) return;
+
 		const filePath = path.join(root, req.url);
 
 		if (!fs.existsSync(filePath)) {
