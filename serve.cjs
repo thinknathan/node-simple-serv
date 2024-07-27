@@ -36,6 +36,11 @@ function main() {
 	const indexExtension = argv['index-extension'];
 
 	const server = http.createServer((req, res) => {
+    if (path.normalize(decodeURI(req.url)) !== decodeURI(req.url)) {
+        res.statusCode = 403;
+        res.end();
+        return;
+    }
 		if (!req.url) return;
 
 		const filePath = path.join(root, req.url);
