@@ -27,7 +27,7 @@ jobs:
       - name: Build Darwin x64
         run: bun build --compile --minify --target=bun-darwin-x64 ./serve.cjs --outfile serve-darwin-x64
       - name: Upload release files
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           path: ./serve*
           compression-level: 7
